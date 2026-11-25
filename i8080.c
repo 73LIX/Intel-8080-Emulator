@@ -23,6 +23,15 @@ unsigned char clock_cycles8080[] = {
     11, 10, 10, 4, 17, 11, 7, 11, 11, 5, 10, 4, 17, 17, 7, 11, //0xF0..0xFF
 };
 
+int parity(int x, int size){
+    int parity_count = 0;
+    for(int i = 0; i < size; i++){
+        parity_count += x & 1; //masks x with 1 to check LSB and increase by 1 or 0
+        x = x >> 1; //shift right by 1 bit, so the next bit moves into the LSB position
+    }
+    return (parity_count % 2 == 0); //returns 1 for even and 0 for odd
+}
+
 int emulate(State8080 *state, bool printTrace){
 
 }
