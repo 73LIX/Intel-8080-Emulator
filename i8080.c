@@ -32,6 +32,13 @@ int parity(int x, int size){
     return (parity_count % 2 == 0); //returns 1 for even and 0 for odd
 }
 
+void UpdateLogicFlags(State8080 *state){
+    state->SF.cy = state->SF.ac = 0;
+    state->SF.zf = (state->A == 0);
+    state->SF.s = (0x80 == (state->A & 0x80));
+    state->SF.pf = parity(state->A, 8);
+}
+
 int emulate(State8080 *state, bool printTrace){
 
 }
