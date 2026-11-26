@@ -32,11 +32,18 @@ int parity(int x, int size){
     return (parity_count % 2 == 0); //returns 1 for even and 0 for odd
 }
 
-void UpdateLogicFlags(State8080 *state){
+void update_logic_flags(State8080 *state){
     state->SF.cy = state->SF.ac = 0;
     state->SF.zf = (state->A == 0);
     state->SF.s = (0x80 == (state->A & 0x80));
     state->SF.pf = parity(state->A, 8);
+}
+
+void update_arithmetic_flags(State8080 *state, uint16_t result){
+    state->SF.zf = ((result & 0xff) == 0); //checks whether the result is 0 or not.
+    state->SF.s = (0x80 == (result & 0x80)); //checks the MSB of the result to set the sign flag
+    state->SF.pf = parity(result & 0xff, 8); //checks parity over the 8-bit result
+    state->SF.ac = (result > 0x09); //compares result against 0x09 (9 in decimal)
 }
 
 int emulate(State8080 *state, bool printTrace){
