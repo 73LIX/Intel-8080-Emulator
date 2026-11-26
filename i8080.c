@@ -46,6 +46,22 @@ void update_arithmetic_flags(State8080 *state, uint16_t result){
     state->SF.ac = (result > 0x09); //compares result against 0x09 (9 in decimal)
 }
 
+void bcd_arithmetic_flags(State8080 *state, uint16_t result){
+    state->SF.cy = ((result & 0x100) != 0); //sets the carry flag to 1 if any carry is generated at the 8th bit(9th-bit position)
+    state->SF.zf = ((result & 0xff) == 0);
+    state->SF.s = (0x80 == (result & 0x80));
+    state->SF.pf = parity(result & 0xff, 8);
+    state->SF.ac = (result > 0x90);
+}
+
+void unimplemented_instruction(State8080 *state){
+    printf("Error: Unimplemented instruction\n");
+    state->PC--;
+    decode8080(state->memory, state->PC);
+    printf("\n");
+    exit(1);
+}
+
 int emulate(State8080 *state, bool printTrace){
 
 }
