@@ -66,8 +66,121 @@ int emulate(State8080 *state, bool printTrace){
 
 }
 
+//reads raw bytes from codebuffer stating at address pc, prints the memory add and readable 8080 assembly mnemonic
 int decode8080(unsigned char *codebuffer, int pc){
+    unsigned char *code = &codebuffer[pc];
+    int opbytes = 1;
+    printf("%04x", pc);
+    switch(*code){
+        //0x00..0x0F
+        case 0x00:
+            prinf("NOP");
+            break;
+        case 0x01:
+            printf("LXI B,#$%02x%02x", code[2], code[1]); //little endian that's why first code[2] then code[1] to convert into big endian
+            opbytes = 3;
+            break;
+        case 0x02:
+            printf("STAX B");
+            break;
+        case 0x03:
+            printf("INX B");
+            break;
+        case 0x04:
+            printf("INR B");
+            break;
+        case 0x05:
+            printf("DCR B");
+            break;
+        case 0x06:
+            printf("MVI B, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x07:
+            printf("RLC");
+            break;
+        case 0x08:
+            printf("NOP");
+            break;
+        case 0x09:
+            printf("DAD B");
+            break;
+        case 0x0A:
+            printf("LDAX B");
+            break;
+        case 0x0B:
+            printf("DCX B");
+            break;
+        case 0x0C:
+            printf("INR C");
+            break;
+        case 0x0D:
+            printf("DCR C");
+            break;
+        case 0x0E:
+            printf("MVI C, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x0F:
+            printf("RRC");
+            break;
+        
+        //0x10..0x1F
+        case 0x10:
+            printf("NOP");
+            break;
+        case 0x11:
+            printf("LXI D, #$%02x%02x", code[2], code[1]);
+            opbytes = 3;
+            break;
+        case 0x12:
+            printf("STAX D");
+            break;
+        case 0x13:
+            printf("INX D");
+            break;
+        case 0x14:
+            printf("INR D");
+            break;
+        case 0x15:
+            printf("DCR D");
+            break;
+        case 0x16:
+            printf("MVI D, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x17:
+            printf("RAL");
+            break;
+        case 0x18:
+            printf("NOP");
+            break;
+        case 0x19:
+            printf("DAD H");
+            break;
+        case 0x1A:
+            printf("LDAX D");
+            break;
+        case 0x1B:
+            printf("DCX D");
+            break;
+        case 0x1C:
+            printf("INR E");
+            break;
+        case 0x1D:
+            printf("DCR E");
+            break;
+        case 0x1E:
+            printf("MVI E, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x1F:
+            printf("RAR");
+            break;
 
+        //[]TODO
+        //0x20..0x2F
+    }
 }
 
 void genInterrupt(State8080 *state, int interrupt_num){
