@@ -180,6 +180,61 @@ int decode8080(unsigned char *codebuffer, int pc){
 
         //[]TODO
         //0x20..0x2F
+        case 0x20:
+            printf("NOP");
+            break;
+        case 0x21:
+            printf("LXI D, #$%02x%02x", code[2], code[1]);
+            opbytes = 3;
+            break;
+        case 0x22:
+            printf("SHLD $%02x%02x", code[2], code[1]);
+            opbytes = 3;
+            break; 
+        case 0x23:
+            printf("INX H");
+            break;
+        case 0x24:
+            printf("INR H"); 
+            break;
+        case 0x25:
+            printf("DCR H");
+            break;
+        case 0x26:
+            printf("MVI H, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x27:
+            printf("DAA");
+            break;
+        case 0x28:
+            printf("NOP");
+            break;
+        case 0x29:
+            printf("DAD H");
+            break;
+        case 0x2A:
+            printf("LHLD, $%02x%02x", code[2], code[1]);
+            opbytes = 3;
+            break;
+        case 0x2B:
+            printf("DCX H");
+            break;
+        case 0x2C:
+            printf("INR L");
+            break;
+        case 0x2D:
+            printf("DCR L");
+            break;
+        case 0x2E:
+            printf("MVI L, #$%02x", code[1]);
+            opbytes = 2;
+            break;
+        case 0x2F:
+            printf("CMA");
+            break;
+
+        //0x30..0x3F
     }
 }
 
